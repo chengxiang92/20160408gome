@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="flyad.cx.mapper.CouponMapper">
+
+	<resultMap id="scoreMap" type="flyad.cx.entity.Coupon">
+		<result property="id" 			column="ID" />
+		<result property="openId" 		column="OPEN_ID" 		jdbcType="VARCHAR"/>
+		<result property="isTaken" 		column="IS_TAKEN" 		jdbcType="VARCHAR"/>
+		<result property="createDate" 	column="CREATE_DATE" 	jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="tableName">T_COUPON</sql>
+
+	<insert id="addScore" parameterType="flyad.cx.entity.Score"> 
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
+        	SELECT LAST_INSERT_ID() AS ID
+	    </selectKey> 
+		INSERT INTO <include refid="tableName"/>
+			(openId, isTaken, createDate)
+		VALUE
+			(#{dateScope}, #{IS_TAKEN}, #{dateScope})
+	</insert>
+
+</mapper>
