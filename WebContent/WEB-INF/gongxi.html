@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--没有券的页面-->
+<!--领取成功回调页面-->
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -11,17 +11,44 @@
 	</head>
 	<body>
 		<div id="container">
-			<div id="page1" class="fullpage" style="background: url(/img/wanle.png)no-repeat;">
-				<div id="go" class="absolute locate" style="width: 256px;height: 96px;" top="730" left="195">
+			<div id="page1" class="fullpage" style="background: url(/img/gongxi.png)no-repeat;">
+				<div id="shiyong" class="absolute locate btn"  top="610" left="208">
 					
 				</div>
+				<div id="chakan" class="absolute locate btn"  top="700" left="208">
+					
+				</div>
+				<div id="fenxiang" class="absolute locate btn"  top="800" left="208">
+					
+				</div>
+			</div>
+			<div id="sharexiyue" class="fullpage hide">
+				<img src="/img/sharexiyue.png" class="fullpage"/>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
-		$("#go").click(function(){
+	$(function(){
+		initwandh ();
+	});
+		$("#shiyong").click(function(){
 			window.location.href="http://t.cn/RqGYszz";
 		});
+		
+		$("#chakan").click(function(){
+			window.location.href="";
+		});
+		
+		$("#fenxiang").click(function(){
+			$("#sharexiyue").removeClass("hide");
+		});
+		
+		/*大小适配*/
+		function initwandh () {
+			 var w = $(window).width()/640;
+       		 var h = $(window).height()/1008;
+       		 $(".btn").css({ "width": w*256 + 'px', "height": 96*h + 'px' });
+		}
 		/*禁用滚屏*/
 		$("#container").on("touchmove", function(e) {
 			e.preventDefault();

@@ -95,7 +95,7 @@ public class CouponController {
 			HttpServletResponse response,
 			@RequestParam(value="openId", required=true)String openId
 			) {
-		return couponService.isTaken(openId)? "success":"failed";
+		return couponService.isTaken(openId)? "/html/gongxi.html":"/html/shibai.html";
 	}
 	/**
 	 * 领卷状态写入接口

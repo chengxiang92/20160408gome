@@ -76,14 +76,19 @@ public class CouponService {
 	public String probability(String openId){
 		String hasAward = userServiceInnr.getHasAwardByOpenId(openId);
 		if(null != hasAward && "1".equals(hasAward)){
-			return "2";
+			String isTaken = userServiceInnr.getIsTakenByOpenId(openId);
+			if(null != isTaken && "1".equals(isTaken)){
+				return "3";
+			}else{
+				return "1";
+			}
 		}else{
 			Double probability = Double.parseDouble(Config.getProbability());
 			double randomNumber = Math.random();
 			if(randomNumber < probability){
-				return userServiceInnr.updateUserStatus(openId, "1", null)?"1":"0";
+				return userServiceInnr.updateUserStatus(openId, "1", null)?"1":"2";
 			}else{
-				return "0";
+				return "2";
 			}
 		}
 	}

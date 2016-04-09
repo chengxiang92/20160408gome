@@ -1,7 +1,7 @@
   var Shake = {
         Params: {
             direct: "", // 方向
-            minshaketimes: 4, // 最小晃动次数
+            minshaketimes: 3, // 最小晃动次数
             shaketimes: 0, // 横竖屏切换次数
             isshake: false, // 是否晃动手机
             predate: null, // 上一次摇动的时间
@@ -67,10 +67,10 @@
                     // 超过500ms算停止摇一摇
                     if (timespan > Shake.Params.stoptimespan || Shake.Params.isstopListen) {
                         // 停止摇晃了
-                        DeviceStopShake();
                         Shake.Params.isshake = false;
                         Shake.Params.shaketimes = 0;
                         Shake.Params.isstopListen = true;
+                        DeviceStopShake();
                         return false;
                     }
                     setTimeout(function () {
@@ -95,32 +95,11 @@
     }
     // 停止晃动回调方法
     function DeviceStopShake() {
-        alert("晃动了" + Shake.Params.shaketimes + "下");
-        alert(page);
-        if(page==0){
-        	$("#page1").addClass("hide");
-					$("#page2").removeClass("hide");
-					page = 1;
-					StartShakeListener();
-        }else if(page==1){
-        	$("#page2").addClass("hide");
-        	$("#page3").removeClass("hide");
-        	page = 2;
-        	StartShakeListener();
-        }else if(page==2){
-        	$("#chan1").addClass("hide");
-        	$("#chan2").removeClass("hide");
-        	page = 3;
-        	StartShakeListener();
-        }else if(page==3){
-        	$("#chan2").addClass("hide");
-        	$("#chan3").removeClass("hide");
-        	page = 4;
-        	StartShakeListener();
-        }else if(page==4){
-        	page=0;
-        	window.location.href="";
-        }
+    	//alert("晃动了" + Shake.Params.shaketimes + "下");
+    	setTimeout(function () {
+    		yaoyiyao();
+    	},500);
+       Shake.RestartShakeListener();
     }
     // 晃动回调方法
     function DeviceShake() {

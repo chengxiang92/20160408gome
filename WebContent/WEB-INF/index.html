@@ -8,12 +8,17 @@
 		<script src="/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/flyad.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/shake.js?v=3" type="text/javascript" charset="utf-8"></script>
+		<script src='http://res.wx.qq.com/open/js/jweixin-1.0.0.js'></script>
 		<link rel="stylesheet" type="text/css" href="/css/common.css" />
 		<link rel="stylesheet" type="text/css" href="/css/guomei.css?v=1" />
 		<link rel="stylesheet" type="text/css" href="/css/animate.min.css" />
 	</head>
 
 	<body>
+	<!--cnzz统计-->
+		<div style="display:none;">
+			<script src="http://s11.cnzz.com/stat.php?id=1258485223&web_id=1258485223" language="JavaScript"></script>
+		</div>
 		<div id="container">
 			<!--第一页-->
 			<div id="page1" class="fullpage ">
@@ -184,11 +189,7 @@
 		/*梦想开始的地方*/
 		$(function() {
 			initwandh ();
-			if (window.DeviceMotionEvent) {
-				window.addEventListener('devicemotion', deviceMotionHandler, false);
-			} else {
-				alert('not support mobile event');
-			}
+			Shake.StartShakeListener();
 		});
 		/*禁用滚屏*/
 		$("#container").on("touchmove", function(e) {
@@ -196,7 +197,7 @@
 		});
 		/*点击领取 跳转到登录逻辑后台*/
 		$("#lingqu").click(function() {
-			window.location.href = "http://192.168.199.228:8080/20160408gm/coupon/get";
+			window.location.href = "/coupon/get";
 		});
 		/*调用接口判断是否中奖*/
 		function getjiang() {
@@ -209,61 +210,19 @@
 				},
 				success: function(data) {
 					alert(data);
+					//中奖
 					if (data == 1) {
 						$("#page1").addClass("hide");
 						$("#page2").removeClass("hide");
+						//没有奖了
 					} else if (data == 2) {
-						window.location.href = "./no.html";
+						window.location.href = "/html/no.html";
+						//中奖了而且领取过了
 					}else if (data == 3) {
-						window.location.href = "./lingguo.html";
+						window.location.href = "/html/lingguo.html";
 					}
 				},
 			})
-		}
-		//摇一摇
-		var SHAKE_THRESHOLD = 3000; //10，需要根据机型判断，IOS 10可以，ANDROID 40
-		var last_update = 0;
-		var x = y = z = last_x = last_y = last_z = 0;
-
-		function deviceMotionHandler(eventData) {
-			if (shake_switch == 1) {
-				var acceleration = eventData.accelerationIncludingGravity;
-				var curTime = new Date().getTime();
-				if ((curTime - last_update) > 86) {
-					var diffTime = curTime - last_update;
-					last_update = curTime;
-					x = acceleration.x;
-					y = acceleration.y;
-					z = acceleration.z;
-					var speed = Math.abs(x - last_x) / diffTime * 10000;
-					if (speed > SHAKE_THRESHOLD) {
-						//alert(page);
-						if (page == 0) {
-							getjiang();
-							page = 1;
-						} else if (page == 1) {
-							$("#page2").addClass("hide");
-							$("#page3").removeClass("hide");
-							page = 2;
-						} else if (page == 2) {
-							$("#page3-1").addClass("hide");
-							$("#page3-2").removeClass("hide");
-							page = 3;
-						} else if (page == 3) {
-							$("#page3-2").addClass("hide");
-							$("#page3-3").removeClass("hide");
-							page = 4;
-						} else if (page == 4) {
-							page = 0;
-							/*跳转到登录逻辑后台*/
-							window.location.href = "http://192.168.199.228:8080/20160408gm/coupon/get";
-						}
-					}
-					last_x = x;
-					last_y = y;
-					last_z = z;
-				}
-			}
 		}
 		
 		/*点击领券购买跳转*/
@@ -302,6 +261,59 @@
        		 $(".btn").css({ "width": w*256 + 'px', "height": 96*h + 'px' });
        		 $(".btn2").css({ "width": w*140 + 'px', "height": 56*h + 'px' });
 		}
+		
+		/*判断摇一摇触发什么事件*/
+		function yaoyiyao() {
+			if (page == 0) {
+				getjiang();
+				page = 1;
+				return;
+			} else if (page == 1) {
+				$("#page2").addClass("hide");
+				$("#page3").removeClass("hide");
+				page = 2;
+				return;
+			} else if (page == 2) {
+				$("#page3-1").addClass("hide");
+				$("#page3-2").removeClass("hide");
+				page = 3;
+				return;
+			} else if (page == 3) {
+				$("#page3-2").addClass("hide");
+				$("#page3-3").removeClass("hide");
+				page = 4;
+				return;
+			} else if (page == 4) {
+				page = 0;
+				/*跳转到登录逻辑后台*/
+				window.location.href = "/coupon/get";
+			}
+			
+		}
+	</script>
+	
+	<script>
+		//分享
+		var title = "国美在线418五周年生日大趴";
+		var desc = "我已领到418元福袋，你也快来放肆领";
+		var link = "http://gome418.fly-ad.cn:8080/coupon/index";
+		var imgUrl = "http://jd.changqing.yili.fly-ad.cn/img/share.jpg";
+		var ftitle = "国美在线418五周年生日大趴";
+		var fdesc = "我已领到418元福袋，你也快来放肆领";
+		var flink = "http://gome418.fly-ad.cn:8080/coupon/index";
+		var fimgUrl = "http://jd.changqing.yili.fly-ad.cn/img/share.jpg";
+
+		function ShareTimelineSuccess() {
+			$("#sharepage").addClass("hide");
+		};
+
+		function ShareFriendSuccess() {
+			$("#sharepage").addClass("hide");
+		};
+	</script>
+
+	<script>
+		document.write('<scr' + 'ipt type="text/javascript" src="http://api.fly-ad.cn/DoubleShareAPI.aspx?url=' + encodeURIComponent(window.location.href) + '"></scr' + 'ipt>');
 	</script>
 
 </html>
