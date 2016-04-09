@@ -21,15 +21,16 @@ public class Config {
 	
 	private static String redirectUrl;
 	
+	private static String probability;
+	
+	private static String checkKey;
+	
 	private static Properties properties;
 	
 	private static String filePath = "config.properties";
 
     public synchronized static void init() {
     	
-    	if(properties != null){
-    		return;
-    	}
     	InputStream inputStream = Config.class.getClassLoader().getResourceAsStream(filePath);
     	try{
     		properties = new Properties();
@@ -42,9 +43,14 @@ public class Config {
     	privateKey = properties.getProperty("privateKey");
     	from = properties.getProperty("from");
     	redirectUrl = properties.getProperty("redirectUrl");
-    	
+    	probability = properties.getProperty("probability");
+    	checkKey = properties.getProperty("checkKey");
     }
 
+    public static void reload(){
+    	
+    }
+    
 	public static String getCouponTakeUrl() {
 		return couponTakeUrl;
 	}
@@ -63,6 +69,14 @@ public class Config {
 
 	public static String getAuthUrl() {
 		return authUrl;
+	}
+
+	public static String getProbability() {
+		return probability;
+	}
+
+	public static String getCheckKey() {
+		return checkKey;
 	}
 
 }

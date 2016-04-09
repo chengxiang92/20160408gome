@@ -2,25 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="flyad.cx.mapper.CouponMapper">
+<mapper namespace="flyad.cx.mapper.AwardMapper">
 
-	<resultMap id="couponMap" type="flyad.cx.entity.Coupon">
+	<resultMap id="awardMap" type="flyad.cx.entity.Award">
 		<result property="id" 			column="ID" />
 		<result property="openId" 		column="OPEN_ID" 		jdbcType="VARCHAR"/>
 		<result property="isTaken" 		column="IS_TAKEN" 		jdbcType="VARCHAR"/>
 		<result property="createDate" 	column="CREATE_DATE" 	jdbcType="VARCHAR"/>
 	</resultMap>
 
-	<sql id="tableName">T_COUPON</sql>
+	<sql id="tableName">T_AWARD</sql>
 
-	<insert id="addCoupon" parameterType="flyad.cx.entity.Coupon"> 
+	<insert id="addScore" parameterType="flyad.cx.entity.Score"> 
 		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
         	SELECT LAST_INSERT_ID() AS ID
 	    </selectKey> 
 		INSERT INTO <include refid="tableName"/>
-			(OPEN_ID, IS_TAKEN, CREATE_DATE)
+			(openId, isTaken, createDate)
 		VALUE
-			(#{openId}, #{isTaken}, #{createDate})
+			(#{dateScope}, #{IS_TAKEN}, #{dateScope})
 	</insert>
 
 </mapper>

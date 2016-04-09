@@ -26,9 +26,19 @@ public class User implements Serializable {
 	/**
 	 * 头像地址
 	 */
+	private String sex;
+	
+	private String province;
+	
+	private String city;
+	
 	private String headImgUrl;
 	
 	private String createDate;
+	
+	private String hasAward;
+	
+	private String isTaken;
 	
 	public Integer getId() {
 		return id;
@@ -59,6 +69,36 @@ public class User implements Serializable {
 	}
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+	public String getHasAward() {
+		return hasAward;
+	}
+	public void setHasAward(String hasAward) {
+		this.hasAward = hasAward;
+	}
+	public String getIsTaken() {
+		return isTaken;
+	}
+	public void setIsTaken(String isTaken) {
+		this.isTaken = isTaken;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }

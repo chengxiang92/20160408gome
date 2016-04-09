@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--登录失败的页面-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/js/flyad.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="/css/common.css"/>
+		<title>摇一摇有惊喜</title>
+	</head>
+	<body>
+		<div id="container">
+			<div id="page1" class="fullpage" style="background: url(/img/shibai.png)no-repeat;">
+				<div id="agin" class="absolute locate btn"  top="658" left="208">
+					
+				</div>
+				<div id="go" class="absolute locate btn"  top="750" left="208">
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	$(function(){
+		initwandh ();
+	});
+		$("#go").click(function(){
+			window.location.href="http://t.cn/RqGYszz";
+		});
+		
+		$("#agin").click(function(){
+			window.location.href="";
+		});
+		
+		/*大小适配*/
+		function initwandh () {
+			 var w = $(window).width()/640;
+       		 var h = $(window).height()/1008;
+       		 $(".btn").css({ "width": w*256 + 'px', "height": 96*h + 'px' });
+		}
+	</script>
+</html>
+

@@ -1,0 +1,7 @@
+*{margin:0;padding:0}
+body{background-color:#fff;font-family:Arial,'Microsoft YaHei'}
+ul li{list-style:none}
+.layout{position:absolute;top:20px;right:20px;z-index:1000;display:none}
+.hide{display:none}
+.absolute{position:absolute}
+.fl{float:left}

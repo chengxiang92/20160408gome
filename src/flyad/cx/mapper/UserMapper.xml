@@ -8,8 +8,13 @@
 		<result property="id" 			column="ID" />
 		<result property="openId" 		column="OPEN_ID" 		jdbcType="VARCHAR"/>
 		<result property="nickName" 	column="NICK_NAME" 		jdbcType="VARCHAR"/>
+		<result property="sex" 			column="SEX" 			jdbcType="VARCHAR"/>
+		<result property="province" 	column="PROVINCE" 		jdbcType="VARCHAR"/>
+		<result property="city" 		column="CITY" 			jdbcType="VARCHAR"/>
 		<result property="headImgUrl" 	column="HEAD_IMG_URL" 	jdbcType="VARCHAR"/>
 		<result property="createDate" 	column="CREATE_DATE" 	jdbcType="VARCHAR"/>
+		<result property="hasAward" 	column="HAS_AWARD" 		jdbcType="VARCHAR"/>
+		<result property="isTaken" 		column="IS_TAKEN" 		jdbcType="VARCHAR"/>
 	</resultMap>
 
 	<sql id="tableName">T_USER</sql>
@@ -19,9 +24,45 @@
         	SELECT LAST_INSERT_ID() AS ID
 	    </selectKey> 
 		INSERT INTO <include refid="tableName"/>
-			(OPEN_ID, NICK_NAME, HEAD_IMG_URL, CREATE_DATE)
+			(OPEN_ID, NICK_NAME, HEAD_IMG_URL, CREATE_DATE, SEX, CITY, PROVINCE,HAS_AWARD,IS_TAKEN)
 		VALUE
-			(#{openId},#{nickName}, #{headImgUrl}, #{createDate})
+			(#{openId}, #{nickName}, #{headImgUrl}, #{createDate},#{sex}, #{city}, #{province}, 0, 0)
 	</insert>
+	
+	<select id="countFindBy" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT COUNT(0)
+		FROM <include refid="tableName"/>
+		<where>
+			<if test="openId != null ">OPEN_ID = #{openId}</if>
+			<if test="hasAward != null ">AND HAS_AWARD = #{hasAward}</if>
+		</where>
+	</select>
+
+	<select id="getHasAwardByOpenId" resultType="java.lang.String" parameterType="java.util.Map">
+		SELECT HAS_AWARD
+		FROM <include refid="tableName"/>
+		WHERE OPEN_ID = #{openId}
+	</select>
+	
+	<select id="getIsTakenByOpenId" resultType="java.lang.String" parameterType="java.util.Map">
+		SELECT IS_TAKEN
+		FROM <include refid="tableName"/>
+		<where>
+			OPEN_ID = #{openId}
+		</where>
+	</select>
+	
+	<update id="updateUserStatus" parameterType="java.util.Map" >
+		UPDATE <include refid="tableName"/>
+		<set>
+			<if test="hasAward != null ">
+				HAS_AWARD = #{hasAward},
+			</if>
+			<if test="isToken != null ">
+				IS_TAKEN = #{isToken}
+			</if>
+		</set>
+		WHERE OPEN_ID = #{openId}
+	</update>
 
 </mapper>

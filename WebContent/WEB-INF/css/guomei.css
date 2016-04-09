@@ -1,0 +1,27 @@
+#page1{background: url(../img/main.png) no-repeat;}
+#page2{background: url(../img/susses.png)no-repeat;}
+#page3-1{background:url(../img/chanpinbk2.png)no-repeat;}
+#page3-2{background:url(../img/chanpinbk1.png)no-repeat;}
+#page3-3{background:url(../img/chanpinbk1.png)no-repeat;}
+
+#page3-1-1{width: 494px;height: 190px;margin-top: 168px;margin-left: 80px;}
+#page3-1-2{width: 494px;height: 190px;margin-top: 80px;margin-left: 80px;}
+#page3-1-3{width: 494px;height: 190px;margin-top: 80px;margin-left: 80px;}
+
+#page3-2-1{width: 494px;height: 190px;margin-top: 110px;margin-left: 80px;}
+#page3-2-2{width: 494px;height: 190px;margin-top: 80px;margin-left: 80px;}
+#page3-2-3{width: 494px;height: 190px;margin-top: 60px;margin-left: 80px;}
+
+#page3-3-1{width: 494px;height: 190px;margin-top: 110px;margin-left: 80px;}
+#page3-3-2{width: 494px;height: 190px;margin-top: 80px;margin-left: 80px;}
+#page3-3-3{width: 494px;height: 190px;margin-top: 60px;margin-left: 80px;}
+.artimg{width:210px;height:210px;float: left;}
+.desc{width:260px;height:90px;font-size: 1.75em;margin-left: 220px;color: white;}
+.price{width:217px;height:34px;font-size: 2.5em;margin-left: 220px;color: white;font-weight: bold;}
+.price2{width:217px;height:34px;font-size: 2.5em;margin-top:20px;margin-left: 220px;color: white;font-weight: bold;}
+/*
+.btn{width: 256px;height: 96px;}
+.btn2{width: 140px;height: 56px;}*/
+#yao {
+	-webkit-animation-iteration-count: infinite;
+}
