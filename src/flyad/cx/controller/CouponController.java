@@ -48,6 +48,7 @@ public class CouponController {
 			HttpServletRequest request
 			){
 		couponService.filter(request);
+		logger.debug("index===========");
 		return "/html/index.html";
 	}
 	/**
@@ -114,22 +115,32 @@ public class CouponController {
 			@RequestParam(value="tms", required=true)String time,
 			@RequestParam(value="result", required=true)String result
 			) {
+		logger.debug("parameters["+token+","+od+","+time+","+result+"]");
 		Coupon coupon = new Coupon();
 		coupon.setIsTaken(result);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try{
 			String openId = URLDecoder.decode(od, "utf-8");
-			if(!couponService.checkToken(token, openId, time)){
-				resultMap.put("msg", "check token failed");
-				resultMap.put("code", "2");
+			if(!couponService.checkOpenId(openId)){
+				resultMap.put("msg", "openId not exist");
+				resultMap.put("code", "5");
+				logger.debug("openId not exist");
 			}else{
-				coupon.setOpenId(openId);
-				if(couponService.record(coupon)){
-					resultMap.put("msg", "success");
-					resultMap.put("code", "1");
+				if(!couponService.checkToken(token, openId, time)){
+					resultMap.put("msg", "check token failed");
+					resultMap.put("code", "2");
+					logger.debug("check token failed");
 				}else{
-					resultMap.put("msg", "insert DB Failed");
-					resultMap.put("code", "4");
+					coupon.setOpenId(openId);
+					if(couponService.record(coupon)){
+						resultMap.put("msg", "success");
+						resultMap.put("code", "1");
+						logger.debug("success");
+					}else{
+						resultMap.put("msg", "insert DB Failed");
+						resultMap.put("code", "4");
+						logger.debug("insert DB Failed");
+					}
 				}
 			}
 		}
@@ -137,6 +148,7 @@ public class CouponController {
 			e.printStackTrace();
 			resultMap.put("msg", "od Decode Exception");
 			resultMap.put("code","3");
+			logger.debug("od Decode Exception"+e);
 		}finally {
 			return MyJson.toJson(resultMap);
 		}

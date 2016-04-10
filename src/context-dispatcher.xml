@@ -20,16 +20,21 @@
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven />
 	
-	<mvc:resources mapping="/html/**" location="/WEB-INF/" cache-period="31556926"/> 
+	<mvc:resources mapping="/html/**" location="/WEB-INF/" cache-period="0"/> 
 	<mvc:resources mapping="css/**" location="/WEB-INF/css/" cache-period="31556926"/> 
 	<mvc:resources mapping="js/**" location="/WEB-INF/js/" cache-period="31556926"/> 
 	<mvc:resources mapping="img/**" location="/WEB-INF/img/" cache-period="31556926"/> 
+	<mvc:resources mapping="media/**" location="/WEB-INF/media/" cache-period="31556926"/> 
 	
-	<mvc:interceptors>  
+	<mvc:interceptors>
+	    <mvc:interceptor>  
+           <mvc:mapping path="/coupon/**" />
+           <bean class="flyad.cx.interceptor.CommonInterceptor"></bean>
+        </mvc:interceptor>  
         <mvc:interceptor>  
            <mvc:mapping path="/coupon/index" />
            <mvc:mapping path="/coupon/get" />
-           <bean class="flyad.cx.interceptor.CommonInterceptor"></bean>  
+           <bean class="flyad.cx.interceptor.AuthInterceptor"></bean>  
         </mvc:interceptor>  
     </mvc:interceptors>  
 	

@@ -7,17 +7,21 @@
 		<title>摇一摇有惊喜</title>
 		<script src="/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/flyad.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/js/shake.js?v=3" type="text/javascript" charset="utf-8"></script>
+		<script src="/js/shake.js?v=4" type="text/javascript" charset="utf-8"></script>
 		<script src='http://res.wx.qq.com/open/js/jweixin-1.0.0.js'></script>
 		<link rel="stylesheet" type="text/css" href="/css/common.css" />
 		<link rel="stylesheet" type="text/css" href="/css/guomei.css?v=1" />
 		<link rel="stylesheet" type="text/css" href="/css/animate.min.css" />
 	</head>
 
-	<body>
+	<body class="hide">
 	<!--cnzz统计-->
 		<div style="display:none;">
 			<script src="http://s11.cnzz.com/stat.php?id=1258485223&web_id=1258485223" language="JavaScript"></script>
+		</div>
+		<!--音乐-->
+		<div class="hide">
+   			 <audio src="/media/5018.wav" id="audio" loop="loop"></audio>
 		</div>
 		<div id="container">
 			<!--第一页-->
@@ -40,34 +44,34 @@
 							<img src="/img/lanyueliang.png" />
 						</div>
 						<div class="desc">
-							<p>蓝月亮 护理洗衣液 薰衣草香亮白增艳</p>
+							<p>蓝月亮 护理洗衣液 薰衣草香亮白增艳 1kg*2袋装</p>
 						</div>
 						<div class="price">
-							<p><s>20</s></p>
+							<p><s>￥20</s></p>
 						</div>
 					</div>
 					<!--产品第一页第二件商品-->
 					<div id="page3-1-2">
 						<div class="artimg">
-							<img src="/img/baiqueling.png" />
+							<img src="/img/shupian.jpg" style="width: 201px;height: 201px;border-radius: 20px;"/>
 						</div>
 						<div class="desc">
-							<p>百雀羚 凡士林保湿润肤霜120g</p>
+							<p>美国先锋薯片（烧烤味+酸乳酪+椒盐）142g*3</p>
 						</div>
 						<div class="price">
-							<p><s>20</s></p>
+							<p><s>￥20</s></p>
 						</div>
 					</div>
 					<!--产品第一页第三件商品-->
 					<div id="page3-1-3">
 						<div class="artimg">
-							<img src="/img/mugua.png" />
+							<img src="/img/hongbeiti.jpg" style="width: 201px;height: 201px;border-radius: 20px;"/>
 						</div>
 						<div class="desc">
-							<p>海南牛奶红心木瓜 约5斤装</p>
+							<p>红贝缇 天然养生精油皂 洋甘菊110g</p>
 						</div>
 						<div class="price">
-							<p><s>20</s></p>
+							<p><s>￥20</s></p>
 						</div>
 					</div>
 					<div id="btn1-1" class="btn2 absolute locate"top="328"left="308">
@@ -188,6 +192,8 @@
 		var shake_switch = 1;
 		/*梦想开始的地方*/
 		$(function() {
+		
+            setTimeout(function(){$("body").removeClass("hide");},500);
 			initwandh ();
 			Shake.StartShakeListener();
 		});
@@ -209,7 +215,7 @@
 					alert("接口异常，请重试");
 				},
 				success: function(data) {
-					alert(data);
+					//alert(data);
 					//中奖
 					if (data == 1) {
 						$("#page1").addClass("hide");
@@ -227,31 +233,31 @@
 		
 		/*点击领券购买跳转*/
 		$("#btn1-1").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/A0005580088-pop8007459337.html";
 		});
 		$("#btn1-2").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/A0005686319-pop8008014162.html";
 		});
 		$("#btn1-3").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/A0005043326-pop8004909940.html";
 		});
 		$("#btn2-1").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gomehigo.hk/A0005564957-pop8007378514.html";
 		});
 		$("#btn2-2").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/9134242780-1123181311.html";
 		});
 		$("#btn2-3").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/9127020025-1116120051.html";
 		});
 		$("#btn3-1").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/9134110115-1123080069.html";
 		});
 		$("#btn3-2").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/9130670025-1119660022.html";
 		});
 		$("#btn3-3").click(function(){
-			window.location.href="";
+			window.location.href="http://item.gome.com.cn/9134064580-1123050081.html";
 		});
 		
 		/*大小适配*/

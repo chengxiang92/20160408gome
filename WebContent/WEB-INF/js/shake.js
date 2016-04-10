@@ -1,4 +1,4 @@
-  var Shake = {
+﻿  var Shake = {
         Params: {
             direct: "", // 方向
             minshaketimes: 3, // 最小晃动次数
@@ -96,10 +96,9 @@
     // 停止晃动回调方法
     function DeviceStopShake() {
     	//alert("晃动了" + Shake.Params.shaketimes + "下");
-    	setTimeout(function () {
-    		yaoyiyao();
-    	},500);
-       Shake.RestartShakeListener();
+    	yaoyiyao();
+ 
+       setTimeout(function(){Shake.RestartShakeListener();},2000);
     }
     // 晃动回调方法
     function DeviceShake() {

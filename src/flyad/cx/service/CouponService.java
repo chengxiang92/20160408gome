@@ -114,12 +114,19 @@ public class CouponService {
 		return couponTakeUrl;
 	}
 
+	public boolean checkOpenId(String openId){
+		return userServiceInnr.countFindBy(openId) == 1 ? true : false;
+	}
+	
 	public boolean checkToken(String token, String openId, String time){
 		if(token == null || openId == null || time ==null){
 			return false;
 		}
 		String checkKey = Config.getCheckKey();
 		String tokenCheck = MD5.encrypt(checkKey + MD5.encrypt(openId + checkKey + time));
+		logger.debug("checkKey="+checkKey);
+		logger.debug("token="+token);
+		logger.debug("tokenCheck="+tokenCheck);
 		return token.equals(tokenCheck);
 	}
 	

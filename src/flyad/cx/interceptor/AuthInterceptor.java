@@ -1,17 +1,19 @@
 package flyad.cx.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;  
+import javax.servlet.http.HttpServletResponse;  
+  
+import org.apache.log4j.Logger;  
+import org.springframework.web.servlet.HandlerInterceptor;  
+import org.springframework.web.servlet.ModelAndView;
 
-import org.apache.log4j.Logger;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;  
+import flyad.cx.util.Config;  
   
-public class CommonInterceptor implements HandlerInterceptor {  
+public class AuthInterceptor implements HandlerInterceptor {  
   
-    private Logger log = Logger.getLogger(CommonInterceptor.class);  
+    private Logger log = Logger.getLogger(AuthInterceptor.class);  
       
-    public CommonInterceptor() {  
+    public AuthInterceptor() {  
         // TODO Auto-generated constructor stub  
     }  
   
@@ -32,11 +34,22 @@ public class CommonInterceptor implements HandlerInterceptor {
     		HttpServletRequest request,  
             HttpServletResponse response,
             Object handler) throws Exception {  
-    	String userAgent = request.getHeader("user-agent");
-    	if(userAgent.contains("MicroMessenger")){
-    		return true;
-    	}
-		return false;
+    	log.debug(request.getSession().getAttribute("openid"));
+    	log.debug(request.getParameter("openid"));
+    	
+        if(null == request.getSession().getAttribute("openid") || "".equals(request.getSession().getAttribute("openid"))){
+        	log.debug("reidrect1");
+        	if(null == request.getParameter("openid") || "".equals(request.getParameter("openid"))){
+				log.debug("reidrect2");
+				response.sendRedirect(Config.getAuthUrl()+request.getRequestURL().toString());
+				return false;
+			}else{
+				String openId = request.getParameter("openid");
+				request.getSession().setAttribute("openid", openId);
+				request.setAttribute("regist", true);
+			}
+		}
+		return true;
     }  
   
     //在业务处理器处理请求执行完成后,生成视图之前执行的动作   
