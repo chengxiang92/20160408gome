@@ -1,5 +1,10 @@
 package flyad.cx.controller;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -101,6 +105,7 @@ public class CouponController {
 	 * @param model
 	 * @param request
 	 * @return
+	 * @throws IOException 
 	 */
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/status")
@@ -112,12 +117,21 @@ public class CouponController {
 			@RequestParam(value="od", required=false)String od,
 			@RequestParam(value="tms", required=false)String time,
 			@RequestParam(value="result", required=false)String result
-			) {
+			) throws IOException {
 /*		logger.debug("parameters["+token+","+od+","+time+","+result+"]");
 		token = request.getHeader("token");
 		od = request.getHeader("od");
 		time = request.getHeader("tms");
 		result = request.getHeader("result");*/
+		BufferedReader in = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        StringBuffer buffer = new StringBuffer();
+        String msg = null;
+        while((msg=in.readLine()) != null){
+            System.out.println(msg);
+            logger.debug("["+msg+"]");
+            buffer.append(msg);
+        }
+        logger.debug("buffer:["+buffer+"]");
 		logger.debug("parameters["+token+","+od+","+time+","+result+"]");
 		Enumeration b = request.getHeaders("Accept-Encoding");  
         while(b.hasMoreElements()){  

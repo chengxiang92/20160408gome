@@ -1,8 +1,14 @@
 package flyad.cx.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -13,6 +19,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -109,7 +116,28 @@ public class MyHttpClient {
         return result;
     }  
     
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws ClientProtocolException, IOException {
+    	HashMap map = new HashMap();
+    	  map.put("name", "郭强");
+    	  map.put("age", new Integer(12));
+    	  map.put("date", new Date());
+    	  ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	  try
+    	  {
+    	   ObjectOutputStream oos = new ObjectOutputStream(baos);
+    	   oos.writeObject(map);
+    	  }
+    	  catch (Throwable e)
+    	  {
+    	   e.printStackTrace();
+    	  }
+    	  byte[] data = baos.toByteArray();
+    	  ByteArrayInputStream bis = new ByteArrayInputStream(data);
+    	  CloseableHttpClient httpclient = HttpClients.createDefault();  
+    	  HttpPost httppost = new HttpPost("http://localhost:8080/20160408gome/coupon/status"); 
+    	  InputStream in = new ByteArrayInputStream("abcdefg".getBytes());
+    	  InputStreamEntity entity = new InputStreamEntity(in);
+    	  httppost.setEntity(entity);
+    	  httpclient.execute(httppost);
     }
 }
