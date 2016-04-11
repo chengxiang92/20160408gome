@@ -102,7 +102,7 @@ public class CouponService {
 		if(couponTakeUrl == null || redirectUrl ==null || privateKey == null || from== null || openId == null){
 			return null;
 		}
-		String token = MD5.encrypt(privateKey+MD5.encrypt(openId+"gome"+tms));
+		String token = MD5.encrypt(privateKey+MD5.encrypt(openId+"gome"+tms).toLowerCase()).toLowerCase();
 		redirectUrl += "?openId="+openId;
 		try {
 			redirectUrl = new BASE64Encoder().encode(redirectUrl.getBytes("UTF-8"));
@@ -123,11 +123,11 @@ public class CouponService {
 			return false;
 		}
 		String checkKey = Config.getCheckKey();
-		String tokenCheck = MD5.encrypt(checkKey + MD5.encrypt(openId + checkKey + time));
+		String tokenCheck = MD5.encrypt(checkKey + MD5.encrypt(openId + checkKey + time).toLowerCase());
 		logger.debug("checkKey="+checkKey);
 		logger.debug("token="+token);
 		logger.debug("tokenCheck="+tokenCheck);
-		return token.equals(tokenCheck);
+		return token.equals(tokenCheck.toLowerCase());
 	}
 	
 	public boolean isTaken(String openId){
@@ -161,6 +161,6 @@ public class CouponService {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Config.init();
-		System.out.println(new CouponService().checkToken("sdf", "123456qwerty", new Date().getTime()+""));
+		System.out.println(new CouponService().checkToken("75b69d232fc110c2e6dbc6f35c7e1d3a", URLEncoder.encode("olrdTs2TN7C0QDJBHcEAJYu9c31s","utf-8"),"1460369435"));
 	}
 }

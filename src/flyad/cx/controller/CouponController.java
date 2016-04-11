@@ -1,8 +1,7 @@
 package flyad.cx.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.security.NoSuchAlgorithmException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,14 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import flyad.cx.entity.Coupon;
 import flyad.cx.service.CouponService;
-import flyad.cx.util.Config;
 import flyad.cx.util.MyJson;
 /**
  * 
@@ -74,7 +72,7 @@ public class CouponController {
 	public String get(
 			HttpServletRequest request,
 			HttpServletResponse response
-			) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+			) {
 		couponService.filter(request);
 		String openId = (String)(request.getSession().getAttribute("openid"));
 		String couponUrl = couponService.getRedirectUrl(openId);
@@ -105,30 +103,60 @@ public class CouponController {
 	 * @return
 	 */
 	@SuppressWarnings("finally")
-	@RequestMapping("/status")
+	@RequestMapping(value = "/status")
 	public @ResponseBody String status(
 			Model model,
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam(value="token", required=true)String token,
-			@RequestParam(value="od", required=true)String od,
-			@RequestParam(value="tms", required=true)String time,
-			@RequestParam(value="result", required=true)String result
+			@RequestParam(value="token", required=false)String token,
+			@RequestParam(value="od", required=false)String od,
+			@RequestParam(value="tms", required=false)String time,
+			@RequestParam(value="result", required=false)String result
 			) {
+/*		logger.debug("parameters["+token+","+od+","+time+","+result+"]");
+		token = request.getHeader("token");
+		od = request.getHeader("od");
+		time = request.getHeader("tms");
+		result = request.getHeader("result");*/
 		logger.debug("parameters["+token+","+od+","+time+","+result+"]");
+		Enumeration b = request.getHeaders("Accept-Encoding");  
+        while(b.hasMoreElements()){  
+            String headValue = (String) b.nextElement();  
+            String value = request.getHeader(headValue);  
+            System.out.println(headValue+"="+value);  
+        }  
+        System.out.println("-------------------------------------------------");  
+         b = request.getHeaderNames();  
+         while(b.hasMoreElements()){  
+             String name = (String) b.nextElement();  
+             String value = request.getHeader(name);  
+             System.out.println(name+" = "+value);  
+               
+         }  
 		Coupon coupon = new Coupon();
 		coupon.setIsTaken(result);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if(token == null || od == null || time ==null || result == null){
+			resultMap.put("msg", "arquired parameter missing arquired");
+			resultMap.put("code", "40004");
+			logger.debug("arquired parameter missing arquired");
+			return MyJson.toJson(resultMap);
+		}
 		try{
 			String openId = URLDecoder.decode(od, "utf-8");
 			if(!couponService.checkOpenId(openId)){
 				resultMap.put("msg", "openId not exist");
-				resultMap.put("code", "5");
+				resultMap.put("code", "40002");
 				logger.debug("openId not exist");
-			}else{
+			}else if(couponService.isTaken(openId)){
+				resultMap.put("msg", "already take");
+				resultMap.put("code", "40005");
+				logger.debug("already take");
+			}
+			else{
 				if(!couponService.checkToken(token, openId, time)){
 					resultMap.put("msg", "check token failed");
-					resultMap.put("code", "2");
+					resultMap.put("code", "40001");
 					logger.debug("check token failed");
 				}else{
 					coupon.setOpenId(openId);
@@ -138,7 +166,7 @@ public class CouponController {
 						logger.debug("success");
 					}else{
 						resultMap.put("msg", "insert DB Failed");
-						resultMap.put("code", "4");
+						resultMap.put("code", "40003");
 						logger.debug("insert DB Failed");
 					}
 				}
@@ -147,7 +175,7 @@ public class CouponController {
 		catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("msg", "od Decode Exception");
-			resultMap.put("code","3");
+			resultMap.put("code","40004");
 			logger.debug("od Decode Exception"+e);
 		}finally {
 			return MyJson.toJson(resultMap);
